@@ -26,7 +26,14 @@ public class Category {
 
     private String name;
 
-    @ManyToMany // do not recommend ManyToMany relation in production product
+    /**
+     * do not recommend ManyToMany relation Entity in production product 
+     * - can't add column to relaetion table
+     * recommend to make relation Entity
+     * - AS-IS: target Entity > (ManyToMany) < target Entoty 
+     * - TO-BE: target Entity > (ManyToOne) > relation Entity < (OneToMany) < target Entity
+     */
+    @ManyToMany 
     @JoinTable(name = "category_item", 
         joinColumns = @JoinColumn(name = "category_id"),
         inverseJoinColumns = @JoinColumn(name = "item_id")
