@@ -29,6 +29,7 @@ public class Category {
     /**
      * do not recommend ManyToMany relation Entity in production product 
      * - can't add column to relaetion table
+     * - cause many operation issue
      * recommend to make relation Entity
      * - AS-IS: target Entity > (ManyToMany) < target Entoty 
      * - TO-BE: target Entity > (ManyToOne) > relation Entity < (OneToMany) < target Entity
