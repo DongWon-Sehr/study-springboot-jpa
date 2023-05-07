@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.persistence.EntityManager;
 
@@ -35,16 +36,24 @@ public class MemberServiceTest {
         Long savedId = memberService.join(member);
 
         // then
-        em.flush();
         assertEquals(member, memberRepository.findOne(savedId));
     }
 
     @Test
     public void duplicateMemberException() throws Exception {
+        
         // given
+        Member member1 = new Member();
+        member1.setName("kim");
+
+        Member member2 = new Member();
+        member2.setName("kim");
 
         // when
+        Long savedId1 = memberService.join(member1);
+        // Long savedId2 = memberService.join(member2); // throw exception
 
         // then
+        fail("Exception should be thrown");
     }
 }
