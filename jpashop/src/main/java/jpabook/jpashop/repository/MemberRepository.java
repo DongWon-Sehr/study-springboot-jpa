@@ -10,7 +10,7 @@ import jpabook.jpashop.domain.Member;
 import lombok.RequiredArgsConstructor;
 
 @Repository
-@RequiredArgsConstructor
+@RequiredArgsConstructor // auto create constructor for only final variable
 public class MemberRepository {
     
     private final EntityManager em;
