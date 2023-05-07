@@ -2,6 +2,8 @@ package jpabook.jpashop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,9 @@ public class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
+    @Autowired EntityManager em;
     
     @Test
-    @Rollback(false)
     public void join() throws Exception {
         
         // given
@@ -33,6 +35,7 @@ public class MemberServiceTest {
         Long savedId = memberService.join(member);
 
         // then
+        em.flush();
         assertEquals(member, memberRepository.findOne(savedId));
     }
 
