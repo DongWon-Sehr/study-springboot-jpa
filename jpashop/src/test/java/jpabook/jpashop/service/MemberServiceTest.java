@@ -51,7 +51,11 @@ public class MemberServiceTest {
 
         // when
         Long savedId1 = memberService.join(member1);
-        // Long savedId2 = memberService.join(member2); // throw exception
+        try {
+            Long savedId2 = memberService.join(member2); // throw exception
+        } catch (IllegalStateException e) {
+            return;
+        }
 
         // then
         fail("Exception should be thrown");
