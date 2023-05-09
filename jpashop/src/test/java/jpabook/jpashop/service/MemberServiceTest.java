@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,12 +50,8 @@ public class MemberServiceTest {
         member2.setName("kim");
 
         // when
-        Long savedId1 = memberService.join(member1);
-        try {
-            Long savedId2 = memberService.join(member2); // throw exception
-        } catch (IllegalStateException e) {
-            return;
-        }
+        memberService.join(member1);
+        assertThrows(IllegalStateException.class, () ->  memberService.join(member2)); // throw exception
 
         // then
         fail("Exception should be thrown");
