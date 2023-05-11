@@ -54,6 +54,5 @@ public class MemberServiceTest {
         assertThrows(IllegalStateException.class, () ->  memberService.join(member2)); // throw exception
 
         // then
-        fail("Exception should be thrown");
     }
 }
