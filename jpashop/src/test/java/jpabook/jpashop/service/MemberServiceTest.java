@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Transactional
+@ExtendWith(SpringExtension.class) // ExtendWith annotation is Junit 5 version of RunWith(SpringRunner.class)
+@SpringBootTest // test will be failed to be autowired w/o this annotation
+@Transactional // rollback after test
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
