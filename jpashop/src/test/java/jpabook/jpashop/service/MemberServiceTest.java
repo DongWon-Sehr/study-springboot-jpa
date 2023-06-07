@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.memberRepository;
 
 @ExtendWith(SpringExtension.class) // ExtendWith annotation is Junit 5 version of RunWith(SpringRunner.class)
 @SpringBootTest // test will be failed to be autowired w/o this annotation
@@ -21,7 +21,7 @@ import jpabook.jpashop.repository.MemberRepository;
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired memberRepository memberRepository;
     @Autowired EntityManager em;
     
     @Test
