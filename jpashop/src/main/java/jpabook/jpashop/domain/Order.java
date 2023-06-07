@@ -62,4 +62,42 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    // creation method ------------
+    public static Order creatOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    // business logic ------------
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("Cannot cancel order. Delivery is already complete");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : this.orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    // search logic ------------
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : this.orderItems ) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+
+        // return orderItems.stream()
+        //     .mapToInt(OrderItem::getTotalPrice)
+        //     .sum();
+    }
 }
