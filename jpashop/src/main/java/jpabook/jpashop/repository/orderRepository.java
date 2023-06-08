@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class orderRepository {
+public class OrderRepository {
     
     private final EntityManager em;
 

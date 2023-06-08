@@ -11,17 +11,17 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
-import jpabook.jpashop.repository.memberRepository;
-import jpabook.jpashop.repository.orderRepository;
+import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class orderService {
+public class OrderService {
     
-    private final orderRepository orderRepository;
-    private final memberRepository memberRepository;
+    private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     
     // order
