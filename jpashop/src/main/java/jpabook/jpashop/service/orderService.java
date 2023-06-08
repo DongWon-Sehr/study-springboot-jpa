@@ -1,5 +1,7 @@
 package jpabook.jpashop.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,7 @@ public class orderService {
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
         
-        // find entity
+        // find entities
         Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.findOne(itemId);
 
@@ -47,6 +49,18 @@ public class orderService {
     }
 
     // cancel
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        
+        // find order entity
+        Order order = orderRepository.findOne(orderId);
 
-    // search
+        // cancel order
+        order.cancel();
+    }
+
+    // // search
+    // public List<Order> findOrder(OrderSearch orderSearch) {
+    //     return orderRepository.findAll(orderSearch);
+    // }
 }
