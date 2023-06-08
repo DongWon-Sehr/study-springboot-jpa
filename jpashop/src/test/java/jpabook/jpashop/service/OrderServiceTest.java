@@ -1,6 +1,8 @@
 package jpabook.jpashop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.persistence.EntityManager;
 
@@ -17,6 +19,7 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.item.Book;
+import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.repository.OrderRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -31,18 +34,12 @@ public class OrderServiceTest {
     @Test
     public void orderItemTest() throws Exception {
         // given
-        Member member = new Member();
-        member.setName("회원1");
-        member.setAddress(new Address("Seoul", "Yeongdong-daero", "123-123"));
-        em.persist(member);
+        Member member = createMember();
 
-        int givenPrice = 15000;
-        int givenStockQuantity = 30;
-        Book book = new Book();
-        book.setName("The Little Prince");
-        book.setPrice(givenPrice);
-        book.setStockQuantity(givenStockQuantity);
-        em.persist(book);
+        String itemName = "The Little Prince";
+        int itemPrice = 15000;
+        int itemStockQuantity = 30;
+        Book book = createBook(itemName, itemPrice, itemStockQuantity);
 
         int orderCount = 3;
 
@@ -53,16 +50,25 @@ public class OrderServiceTest {
         Order getOrder = orderRepository.findOne(orderId);
         assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "Order status should be ORDER, when order item");
         assertEquals(orderCount, getOrder.getOrderItems().stream().mapToInt(OrderItem::getCount).sum(), "Order count should be exact");
-        assertEquals(givenPrice * orderCount, getOrder.getTotalPrice(), "Total Price = orderCount * price");
-        assertEquals(givenStockQuantity - orderCount, book.getStockQuantity(), "Stock should be reflected as much as order count");
+        assertEquals(itemPrice * orderCount, getOrder.getTotalPrice(), "Total Price = orderCount * price");
+        assertEquals(itemStockQuantity - orderCount, book.getStockQuantity(), "Stock should be reflected as much as order count");
 
     }
     
     @Test
-    public void orderCountBiggerThanStockQuantityTest() throws Exception {
+    public void orderItemOutOfStockExceptionTest() throws Exception {
         // given
+        Member member = createMember();
+
+        String itemName = "The Little Prince";
+        int itemPrice = 15000;
+        int itemStockQuantity = 10;
+        Book book = createBook(itemName, itemPrice, itemStockQuantity);
+
+        int orderCount = 11;
 
         // when
+        assertThrows(NotEnoughStockException.class, () -> orderService.order(member.getId(), book.getId(), orderCount));
 
         // then
     }
@@ -75,13 +81,21 @@ public class OrderServiceTest {
 
         // then
     }
-    
-    @Test
-    public void orderItemOutOfStockExceptionTest() throws Exception {
-        // given
 
-        // when
+    private Member createMember() {
+        Member member = new Member();
+        member.setName("회원1");
+        member.setAddress(new Address("Seoul", "Yeongdong-daero", "123-123"));
+        em.persist(member);
+        return member;
+    }
 
-        // then
+    private Book createBook(String name, int price, int stockQuantity) {
+        Book book = new Book();
+        book.setName(name);
+        book.setPrice(price);
+        book.setStockQuantity(stockQuantity);
+        em.persist(book);
+        return book;
     }
 }
