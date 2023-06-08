@@ -25,7 +25,7 @@ public class ItemServiceTest {
     @Autowired EntityManager em;
 
     @Test
-    public void save() throws Exception {
+    public void saveTest() throws Exception {
         // given
         Item book = new Book();
         book.setName("The Little Prince");

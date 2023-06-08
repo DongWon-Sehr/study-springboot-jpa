@@ -25,7 +25,7 @@ public class MemberServiceTest {
     @Autowired EntityManager em;
     
     @Test
-    public void join() throws Exception {
+    public void joinTest() throws Exception {
         
         // given
         Member member = new Member();
@@ -39,7 +39,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void duplicateMemberException() throws Exception {
+    public void duplicateMemberExceptionTest() throws Exception {
         
         // given
         Member member1 = new Member();
