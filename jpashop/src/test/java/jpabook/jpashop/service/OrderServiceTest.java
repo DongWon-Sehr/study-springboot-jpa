@@ -76,10 +76,24 @@ public class OrderServiceTest {
     @Test
     public void cancelOrderTest() throws Exception {
         // given
+        Member member = createMember();
+
+        String itemName = "The Little Prince";
+        int itemPrice = 15000;
+        int itemStockQuantity = 10;
+        Book book = createBook(itemName, itemPrice, itemStockQuantity);
+
+        int orderCount = 3;
+        Long orderId = orderService.order(member.getId(), book.getId(), orderCount);
 
         // when
+        orderService.cancelOrder(orderId);
 
         // then
+        Order getOrder = orderRepository.findOne(orderId);
+        assertEquals(OrderStatus.CANCEL, getOrder.getStatus(), "Order status should be CANCEL, when cancel order");
+        assertEquals(itemStockQuantity, book.getStockQuantity(), "Stock should be same with initial stock quantity");
+        
     }
 
     private Member createMember() {
