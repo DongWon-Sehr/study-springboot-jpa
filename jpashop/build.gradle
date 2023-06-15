@@ -22,9 +22,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation' // valid library
-	// implementation 'org.hibernate.validator:hibernate-validator:6.1.2.Final' // valid library
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' // sql logging library
+	implementation 'javax.validation:validation-api:2.0.1.Final' // validator package
+	implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final' // validator package
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' // sql logging package
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
