@@ -23,10 +23,10 @@ public class MemberServiceTest {
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
     @Autowired EntityManager em;
-    
+
     @Test
     public void joinTest() throws Exception {
-        
+
         // given
         Member member = new Member();
         member.setName("kim");
@@ -40,7 +40,7 @@ public class MemberServiceTest {
 
     @Test
     public void duplicateMemberExceptionTest() throws Exception {
-        
+
         // given
         Member member1 = new Member();
         member1.setName("kim");
@@ -50,7 +50,7 @@ public class MemberServiceTest {
 
         // when
         memberService.join(member1);
-        assertThrows(IllegalStateException.class, () ->  memberService.join(member2)); // throw exception
+        assertThrows(IllegalStateException.class, () -> memberService.join(member2)); // throw exception
 
         // then
     }

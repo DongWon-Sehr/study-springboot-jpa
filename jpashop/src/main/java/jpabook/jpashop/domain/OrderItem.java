@@ -16,11 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // don't use constructor to create class, use createOrderItem method
 public class OrderItem {
-    
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
 

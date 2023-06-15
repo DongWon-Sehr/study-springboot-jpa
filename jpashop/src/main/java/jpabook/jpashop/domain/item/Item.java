@@ -19,10 +19,12 @@ import lombok.Setter;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // insert child class into a single table
 @DiscriminatorColumn(name = "dtype")
-@Getter @Setter
+@Getter
+@Setter
 public abstract class Item {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 

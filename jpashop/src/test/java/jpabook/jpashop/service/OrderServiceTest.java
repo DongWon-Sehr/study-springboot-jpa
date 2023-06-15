@@ -54,7 +54,7 @@ public class OrderServiceTest {
         assertEquals(itemStockQuantity - orderCount, book.getStockQuantity(), "Stock should be reflected as much as order count");
 
     }
-    
+
     @Test
     public void orderItemOutOfStockExceptionTest() throws Exception {
         // given
@@ -72,7 +72,7 @@ public class OrderServiceTest {
 
         // then
     }
-    
+
     @Test
     public void cancelOrderTest() throws Exception {
         // given
@@ -93,7 +93,7 @@ public class OrderServiceTest {
         Order getOrder = orderRepository.findOne(orderId);
         assertEquals(OrderStatus.CANCEL, getOrder.getStatus(), "Order status should be CANCEL, when cancel order");
         assertEquals(itemStockQuantity, book.getStockQuantity(), "Stock should be same with initial stock quantity");
-        
+
     }
 
     private Member createMember() {

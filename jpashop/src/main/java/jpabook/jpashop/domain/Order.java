@@ -26,11 +26,13 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // don't use constructor to create class, use createOrder method
 public class Order {
-    
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     @Column(name = "order_id")
     private Long id;
 
@@ -94,13 +96,13 @@ public class Order {
     // search logic ------------
     public int getTotalPrice() {
         int totalPrice = 0;
-        for (OrderItem orderItem : this.orderItems ) {
+        for (OrderItem orderItem : this.orderItems) {
             totalPrice += orderItem.getTotalPrice();
         }
         return totalPrice;
 
         // return orderItems.stream()
-        //     .mapToInt(OrderItem::getTotalPrice)
-        //     .sum();
+        // .mapToInt(OrderItem::getTotalPrice)
+        // .sum();
     }
 }

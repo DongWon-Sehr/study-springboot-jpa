@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class OrderRepository {
-    
+
     private final EntityManager em;
 
     public void save(Order order) {
@@ -52,5 +52,5 @@ public class OrderRepository {
         cq.where(criteria.toArray(new Predicate[criteria.size()]));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
         return query.getResultList();
-        }
+    }
 }

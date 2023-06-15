@@ -8,10 +8,11 @@ import lombok.Setter;
 
 @Entity
 @DiscriminatorValue("book")
-@Getter @Setter
+@Getter
+@Setter
 public class Book extends Item {
-    
+
     private String author;
-    
+
     private String isbn;
 }

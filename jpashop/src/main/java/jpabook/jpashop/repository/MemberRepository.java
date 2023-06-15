@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor // auto create constructor for only final variable
 public class MemberRepository {
-    
+
     private final EntityManager em;
 
     public void save(Member member) {
@@ -25,12 +25,12 @@ public class MemberRepository {
 
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class) // jpql
-            .getResultList();
+                .getResultList();
     }
 
     public List<Member> findByName(String name) {
         return em.createQuery("select m from Member m where m.name = :name", Member.class) // jpql
-            .setParameter("name", name)
-            .getResultList();
+                .setParameter("name", name)
+                .getResultList();
     }
 }

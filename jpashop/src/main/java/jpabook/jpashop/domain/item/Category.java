@@ -19,28 +19,28 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Category {
-    
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 
     private String name;
 
     /**
-     * do not recommend ManyToMany relation Entity in production product 
+     * do not recommend ManyToMany relation Entity in production product
      * - can't add column to relation table
      * - cause many operation issue
      * recommend to make relation Entity
-     * - AS-IS: target Entity > (ManyToMany) < target Entity 
-     * - TO-BE: target Entity > (ManyToOne) > relation Entity < (OneToMany) < target Entity
+     * - AS-IS: target Entity > (ManyToMany) < target Entity
+     * - TO-BE: target Entity > (ManyToOne) > relation Entity < (OneToMany) < target
+     * Entity
      */
-    @ManyToMany 
-    @JoinTable(name = "category_item", 
-        joinColumns = @JoinColumn(name = "category_id"),
-        inverseJoinColumns = @JoinColumn(name = "item_id")
-    )
+    @ManyToMany
+    @JoinTable(name = "category_item", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
