@@ -52,7 +52,7 @@ public class MemberController {
     @GetMapping("/members")
     public String list(Model model) {
         log.info("MemberController - GET list");
-        List<Member> members = memberService.findMembers();
+        List<Member> members = memberService.findMembers(); // convert entity to dto and pass necessary field for production
         model.addAttribute("members", members);
         return "members/memberList";
     }
