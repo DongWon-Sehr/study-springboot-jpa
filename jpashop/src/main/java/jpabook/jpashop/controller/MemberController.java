@@ -1,5 +1,7 @@
 package jpabook.jpashop.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -23,13 +25,15 @@ public class MemberController {
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
-        log.info("MemberController");
+        log.info("MemberController - GET createForm");
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
     }
 
     @PostMapping("/members/new")
     public String create(@Valid MemberForm form, BindingResult result) {
+
+        log.info("MemberController - POST create");
 
         if (result.hasErrors()) {
             return "members/createMemberForm";
@@ -43,5 +47,13 @@ public class MemberController {
 
         memberService.join(member);
         return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String list(Model model) {
+        log.info("MemberController - GET list");
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
     }
 }
