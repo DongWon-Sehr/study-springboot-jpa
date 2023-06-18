@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import jpabook.jpashop.domain.item.Item;
@@ -18,7 +19,7 @@ public class ItemRepository {
         if (item.getId() == null) {
             em.persist(item);
         } else {
-            em.merge(item);
+            throw new InvalidDataAccessApiUsageException("Can't update with ItemRepository.save() method. Use Item.change() method");
         }
     }
 

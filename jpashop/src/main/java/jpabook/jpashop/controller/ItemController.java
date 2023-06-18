@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.service.ItemService;
+import jpabook.jpashop.service.UpdateItemDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,20 +70,12 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form) {
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
         log.info("ItemController - POST updateItem");
-
-        Book book = new Book();
-
         log.info("form.getId() - " + form.getId());
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
 
-        itemService.saveItem(book);
+        itemService.updateItem(new UpdateItemDto(itemId, form));
+
         return "redirect:/items";
     }
 }
