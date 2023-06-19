@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +40,15 @@ public class OrderRepository {
 
         List<Predicate> criteria = new ArrayList<>();
 
+        // search order status
         if (orderSearch.getOrderStatus() != null) {
             Predicate status = cb.equal(o.get("status"), orderSearch.getOrderStatus());
             criteria.add(status);
         }
 
-        if (orderSearch.getMemberName() != null) {
-            Predicate name = cb.equal(o.get("name"), orderSearch.getMemberName());
+        // search meember name
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            Predicate name = cb.like(m.<String>get("name"), "%" + orderSearch.getMemberName() + "%");
             criteria.add(name);
         }
 
