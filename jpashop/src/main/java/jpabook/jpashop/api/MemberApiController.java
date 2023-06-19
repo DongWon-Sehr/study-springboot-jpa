@@ -1,6 +1,7 @@
 package jpabook.jpashop.api;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +24,28 @@ public class MemberApiController {
         return new CreateMemberResponse(id);
     }
 
+    @PostMapping("/api/v2/members")
+    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
+
+        Member memeber = new Member();
+        memeber.setName(request.getName());
+
+        Long id = memberService.join(memeber);
+        return new CreateMemberResponse(id);
+    }
+
+    @Data
+    static class CreateMemberRequest {
+
+        @NotEmpty
+        private String name;
+    }
+
     @Data
     static class CreateMemberResponse {
         
         private Long id;
-        
+
         public CreateMemberResponse(Long id) {
             this.id = id;
         }
