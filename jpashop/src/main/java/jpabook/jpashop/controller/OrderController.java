@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.item.Item;
@@ -57,8 +54,6 @@ public class OrderController {
     @GetMapping("/orders")
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
         log.info("OrderController - GET orderList");
-        String json = objToJson(orderSearch);
-        log.info(json);
         
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
