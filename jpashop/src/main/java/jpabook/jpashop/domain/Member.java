@@ -30,4 +30,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    // business logic ------------
+    public void change(String name) {
+        this.name = name;
+    }
 }

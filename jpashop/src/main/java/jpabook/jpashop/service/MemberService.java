@@ -13,15 +13,21 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor // auto create constructor for only final variable
 public class MemberService {
-    
+
     private final MemberRepository memberRepository;
-    
+
     // sign up
     @Transactional // default readOnly = false
     public Long join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
+    }
+
+    @Transactional
+    public void updateMember(Long id, String name) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.change(name);
     }
 
     private void validateDuplicateMember(Member member) {
