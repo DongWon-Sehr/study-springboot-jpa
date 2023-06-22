@@ -7,7 +7,7 @@ spring:
 
   # jpa:
   #   hibernate:
-  #     ddl-auto: create-drop # application 실행 시 기존 테이블 삭제 후 다시 생성
+  #     ddl-auto: create-drop # application 실행 시 기존 테이블 삭제 후 다시 생성 (The default for H2 and other embedded databases is create-drop, but for others like MySQL is none)
   #   properties:
   #     hibernate:
   #       # show_sql: true # log 를 남기기 때문에 콘솔 출력 disable
