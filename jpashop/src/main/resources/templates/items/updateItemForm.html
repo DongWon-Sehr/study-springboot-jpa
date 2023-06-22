@@ -6,6 +6,7 @@
 <body>
     <div class="container">
         <div th:replace="fragments/bodyHeader :: bodyHeader" />
+        <h2>상품 수정</h2>
         <form th:object="${form}" method="post">
             <!-- id -->
             <input type="hidden" th:field="*{id}" />

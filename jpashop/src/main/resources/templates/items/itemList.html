@@ -7,6 +7,7 @@
     <div class="container">
         <div th:replace="fragments/bodyHeader :: bodyHeader" />
         <div>
+            <h2>상품 목록</h2>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -14,6 +15,8 @@
                         <th>상품명</th>
                         <th>가격</th>
                         <th>재고수량</th>
+                        <th>저자</th>
+                        <th>ISBN</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -23,6 +26,8 @@
                         <td th:text="${item.name}"></td>
                         <td th:text="${item.price}"></td>
                         <td th:text="${item.stockQuantity}"></td>
+                        <td th:text="${item.author}"></td>
+                        <td th:text="${item.isbn}"></td>
                         <td>
                             <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary"
                                 role="button">수정</a>
