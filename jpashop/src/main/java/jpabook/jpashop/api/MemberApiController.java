@@ -1,8 +1,11 @@
 package jpabook.jpashop.api;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +46,11 @@ public class MemberApiController {
         memberService.updateMember(id, request.getName());
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+    }
+
+    @GetMapping("/api/v1/members")
+    public List<Member> getMemberV1() {
+        return memberService.findMembers();
     }
 
     @Data
