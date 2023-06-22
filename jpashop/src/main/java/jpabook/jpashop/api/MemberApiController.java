@@ -1,6 +1,7 @@
 package jpabook.jpashop.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -53,6 +54,15 @@ public class MemberApiController {
         return memberService.findMembers();
     }
 
+    @GetMapping("/api/v2/members")
+    public Result<List<GetMemberDto>> getMemberV2() {
+        List<Member> findMembers = memberService.findMembers();
+        List<GetMemberDto> collect = findMembers.stream()
+                                        .map(m -> new GetMemberDto(m.getId(), m.getName()))
+                                        .collect(Collectors.toList());
+        return new Result<>(collect);
+    }
+
     @Data
     static class CreateMemberRequest {
 
@@ -78,6 +88,19 @@ public class MemberApiController {
     @Data
     @AllArgsConstructor
     static class UpdateMemberResponse {
+        private Long id;
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetMemberDto {
         private Long id;
         private String name;
     }
