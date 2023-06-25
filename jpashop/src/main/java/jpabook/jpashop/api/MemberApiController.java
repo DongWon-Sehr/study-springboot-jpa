@@ -33,7 +33,6 @@ public class MemberApiController {
 
     @PostMapping("/api/v2/members")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
-
         Member memeber = new Member();
         memeber.setName(request.getName());
 
@@ -43,7 +42,6 @@ public class MemberApiController {
 
     @PatchMapping("/api/v2/members/{id}")
     public UpdateMemberResponse updateMemberV2(@PathVariable("id") Long id, @RequestBody @Valid UpdateMemberRequest request) {
-        
         memberService.updateMember(id, request.getName());
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
