@@ -16,14 +16,16 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public void saveItem(Item item) {
+    public Long saveItem(Item item) {
         itemRepository.save(item);
+        return item.getId();
     }
 
     @Transactional
-    public void updateItem(UpdateItemDto bookDto) {
+    public Long updateItem(UpdateItemDto bookDto) {
         Item findItem = itemRepository.findOne(bookDto.getId());
         findItem.change(bookDto.getName(), bookDto.getPrice(), bookDto.getStockQuantity());
+        return findItem.getId();
     }
 
     public List<Item> findItems() {
