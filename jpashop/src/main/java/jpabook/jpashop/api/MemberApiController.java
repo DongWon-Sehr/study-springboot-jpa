@@ -48,12 +48,12 @@ public class MemberApiController {
     }
 
     @GetMapping("/api/v1/members")
-    public List<Member> getMemberV1() {
+    public List<Member> getMembersV1() {
         return memberService.findMembers();
     }
 
     @GetMapping("/api/v2/members")
-    public Result getMemberV2() {
+    public Result getMembersV2() {
         List<Member> findMembers = memberService.findMembers();
         List<GetMemberDto> collect = findMembers.stream()
                                         .map(m -> new GetMemberDto(m.getId(), m.getName()))
