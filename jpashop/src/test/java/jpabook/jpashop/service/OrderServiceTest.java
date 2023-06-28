@@ -1,15 +1,15 @@
 package jpabook.jpashop.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Address;
@@ -21,7 +21,7 @@ import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.repository.OrderRepository;
 
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
@@ -47,14 +47,14 @@ public class OrderServiceTest {
 
         // then
         Order getOrder = orderRepository.findOne(orderId);
-        assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "Order status should be ORDER, when order item");
-        assertEquals(orderCount, getOrder.getOrderItems().stream().mapToInt(OrderItem::getCount).sum(), "Order count should be exact");
-        assertEquals(itemPrice * orderCount, getOrder.getTotalPrice(), "Total Price = orderCount * price");
-        assertEquals(itemStockQuantity - orderCount, book.getStockQuantity(), "Stock should be reflected as much as order count");
+        assertEquals("Order status should be ORDER, when order item", OrderStatus.ORDER, getOrder.getStatus());
+        assertEquals("Order count should be exact", orderCount, getOrder.getOrderItems().stream().mapToInt(OrderItem::getCount).sum());
+        assertEquals("Total Price = orderCount * price", itemPrice * orderCount, getOrder.getTotalPrice());
+        assertEquals("Stock should be reflected as much as order count", itemStockQuantity - orderCount, book.getStockQuantity());
 
     }
 
-    @Test
+    @Test(expected = NotEnoughStockException.class)
     public void orderItemOutOfStockExceptionTest() throws Exception {
         // given
         Member member = createMember();
@@ -67,9 +67,10 @@ public class OrderServiceTest {
         int orderCount = 11;
 
         // when
-        assertThrows(NotEnoughStockException.class, () -> orderService.order(member.getId(), book.getId(), orderCount));
+        orderService.order(member.getId(), book.getId(), orderCount);
 
         // then
+        fail("NotEnoughStockException should be erased");
     }
 
     @Test
@@ -90,8 +91,8 @@ public class OrderServiceTest {
 
         // then
         Order getOrder = orderRepository.findOne(orderId);
-        assertEquals(OrderStatus.CANCEL, getOrder.getStatus(), "Order status should be CANCEL, when cancel order");
-        assertEquals(itemStockQuantity, book.getStockQuantity(), "Stock should be same with initial stock quantity");
+        assertEquals("Order status should be CANCEL, when cancel order", OrderStatus.CANCEL, getOrder.getStatus());
+        assertEquals("Stock should be same with initial stock quantity", itemStockQuantity, book.getStockQuantity());
 
     }
 

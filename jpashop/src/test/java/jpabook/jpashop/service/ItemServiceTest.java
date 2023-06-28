@@ -1,23 +1,23 @@
 package jpabook.jpashop.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.controller.BookForm;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.repository.ItemRepository;
 
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class ItemServiceTest {
@@ -75,7 +75,7 @@ public class ItemServiceTest {
         assertEquals(updateStockQuantity, itemService.findOne(book.getId()).getStockQuantity());
     }
 
-    @Test
+    @Test(expected = InvalidDataAccessApiUsageException.class)
     public void updateTestWithSaveItem() throws Exception {
         // given
         Book book = new Book();
@@ -99,8 +99,9 @@ public class ItemServiceTest {
         updateBook.setIsbn(book.getIsbn());
 
         // when
-        assertThrows(InvalidDataAccessApiUsageException.class, () -> itemService.saveItem(updateBook)); // throw exception
+        itemService.saveItem(updateBook);
         
         // then
+        fail("InvalidDataAccessApiUsageException should be erased");
     }
 }

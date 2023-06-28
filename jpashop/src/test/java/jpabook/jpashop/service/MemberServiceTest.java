@@ -1,21 +1,21 @@
 package jpabook.jpashop.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 
-@ExtendWith(SpringExtension.class) // ExtendWith annotation is Junit 5 version of RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest // test will be failed to be autowired w/o this annotation
 @Transactional // rollback after test
 public class MemberServiceTest {
@@ -38,7 +38,7 @@ public class MemberServiceTest {
         assertEquals(member, memberRepository.findOne(savedId));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void duplicateMemberExceptionTest() throws Exception {
 
         // given
@@ -50,8 +50,9 @@ public class MemberServiceTest {
 
         // when
         memberService.join(member1);
-        assertThrows(IllegalStateException.class, () -> memberService.join(member2)); // throw exception
+        memberService.join(member2);
 
         // then
+        fail("IllegalStateException should be erased");
     }
 }
