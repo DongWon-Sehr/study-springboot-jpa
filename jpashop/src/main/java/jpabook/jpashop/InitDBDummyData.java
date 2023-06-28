@@ -1,4 +1,4 @@
-package jpabook.jpashop.service;
+package jpabook.jpashop;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class InitDB {
+public class InitDBDummyData {
     
     private final InitService initservice;
 
