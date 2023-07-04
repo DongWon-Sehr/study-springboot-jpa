@@ -33,9 +33,4 @@ public class Member {
     @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
-
-    // business logic ------------
-    public void change(String name) {
-        this.name = name;
-    }
 }

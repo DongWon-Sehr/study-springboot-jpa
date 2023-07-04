@@ -27,7 +27,7 @@ public class MemberService {
     @Transactional
     public void updateMember(Long id, String name) {
         Member findMember = memberRepository.findOne(id);
-        findMember.change(name);
+        findMember.setName(name);
     }
 
     private void validateDuplicateMember(Member member) {
