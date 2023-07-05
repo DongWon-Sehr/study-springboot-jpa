@@ -54,10 +54,10 @@ public class OrderSimpleApiController {
 
         public SimpleOrderDto(Order order) {
             this.orderId = order.getId();
-            this.name = order.getMember().getName();
+            this.name = order.getMember().getName(); // force lazy loading Member entity
             this.orderDate = order.getOrderDate();
             this.orderStatus = order.getStatus();
-            this.address = order.getMember().getAddress();
+            this.address = order.getDelivery().getAddress(); // force lazy loading Delivery entity
         }
         
     }
