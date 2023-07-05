@@ -27,6 +27,7 @@ public class OrderSimpleApiController {
     
     private final OrderRepository orderRepository;
 
+    // response entity object and force lazy loading
     @GetMapping("/api/v1/simple-orders")
     public List<Order> getOrdesrV1() {
         List<Order> orders = orderRepository.findAllByCriteria(new OrderSearch());
@@ -37,9 +38,18 @@ public class OrderSimpleApiController {
         return orders;
     }
 
+    // response DTO object
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> getOrdersV2() {
         return orderRepository.findAllByCriteria(new OrderSearch()).stream()
+            .map(SimpleOrderDto::new)
+            .collect(Collectors.toList());
+    }
+
+    // response DTO object with fetch join to avoid lazy loading
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> getOrdersV3() {
+        return orderRepository.findAllWithMemberDelivery().stream()
             .map(SimpleOrderDto::new)
             .collect(Collectors.toList());
     }
