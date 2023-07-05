@@ -44,7 +44,7 @@ public class InitDBDummyData {
             em.persist(book2);
 
             OrderItem orderItem1 = OrderItem.createOrderItem(book1, 11800, 1);
-            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 12000, 1);
+            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 12000, 2);
 
             Delivery delivery = new Delivery();
             delivery.setAddress(member.getAddress());
@@ -62,13 +62,18 @@ public class InitDBDummyData {
             Book book2 = createBook("시선으로부터", 14000, 25, "정세랑", "9788954672214");
             em.persist(book2);
 
-            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 8000, 1);
-            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 14000, 1);
+            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 8000, 3);
+            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 14000, 4);
 
-            Delivery delivery = new Delivery();
-            delivery.setAddress(member.getAddress());
+            Delivery delivery = createDelivery(member);
             Order order = Order.creatOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
+        }
+
+        private Delivery createDelivery(Member member) {
+            Delivery delivery = new Delivery();
+            delivery.setAddress(member.getAddress());
+            return delivery;
         }
 
         private Book createBook(String name, int price, int StockQuantity, String author, String isbn) {
