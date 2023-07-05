@@ -12,6 +12,7 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.OrderSimpleQueryDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +48,7 @@ public class OrderSimpleApiController {
     }
 
     // response DTO object with fetch join to avoid lazy loading
+    // lightly less performance than v4 but better reusability
     @GetMapping("/api/v3/simple-orders")
     public List<SimpleOrderDto> getOrdersV3() {
         return orderRepository.findAllWithMemberDelivery().stream()
@@ -54,21 +56,28 @@ public class OrderSimpleApiController {
             .collect(Collectors.toList());
     }
 
+    // response DTO object with fetch join that find DTO method
+    // slightly better performance than v3 but less reusability
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> getOrdersV4() {
+        return orderRepository.findOrderDtos();
+    }
+
     @Data
     static class SimpleOrderDto {
-        private Long orderId;
-        private String name;
-        private LocalDateTime orderDate;
-        private OrderStatus orderStatus;
-        private Address address;
+    
+    private Long orderId;
+    private String name;
+    private LocalDateTime orderDate;
+    private OrderStatus orderStatus;
+    private Address address;
 
-        public SimpleOrderDto(Order order) {
-            this.orderId = order.getId();
-            this.name = order.getMember().getName(); // force lazy loading Member entity
-            this.orderDate = order.getOrderDate();
-            this.orderStatus = order.getStatus();
-            this.address = order.getDelivery().getAddress(); // force lazy loading Delivery entity
-        }
-        
+    public SimpleOrderDto(Order order) {
+        this.orderId = order.getId();
+        this.name = order.getMember().getName();
+        this.orderDate = order.getOrderDate();
+        this.orderStatus = order.getStatus();
+        this.address = order.getDelivery().getAddress();
     }
+}
 }
