@@ -61,6 +61,7 @@ public class OrderApiController {
             this.orderId = order.getId();
             this.name = order.getMember().getName();
             this.orderDate = order.getOrderDate();
+            this.orderStatus = order.getStatus();
             this.address = order.getDelivery().getAddress();
             this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemDto::new)
