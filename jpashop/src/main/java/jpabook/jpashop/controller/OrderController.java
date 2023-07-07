@@ -48,7 +48,7 @@ public class OrderController {
                         @RequestParam("count") int count) {
         log.info("OrderController - POST order");
 
-        Long orderId = orderService.order(memberId, itemId, count);
+        orderService.order(memberId, itemId, count);
         return "redirect:/orders";
     }
 
