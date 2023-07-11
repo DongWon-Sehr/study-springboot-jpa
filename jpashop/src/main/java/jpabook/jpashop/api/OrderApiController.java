@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jpabook.jpashop.domain.Address;
@@ -22,6 +23,7 @@ public class OrderApiController {
     
     private final OrderRepository orderRepository;
 
+    // response entity object and force lazy loading
     @GetMapping("/api/v1/orders")
     public List<Order> getOrdersV1() {
         List<Order> orders = orderRepository.findAllByCriteria(new OrderSearch());
@@ -37,6 +39,7 @@ public class OrderApiController {
         return orders;
     }
 
+    // response DTO object
     @GetMapping("/api/v2/orders")
     public List<OrderDto> getOrdersV2() {
         List<Order> orders = orderRepository.findAllByCriteria(new OrderSearch());
@@ -45,9 +48,23 @@ public class OrderApiController {
                 .collect(Collectors.toList());
     }
 
+    // response DTO object with fetch join to avoid lazy loading (can't support paging)
     @GetMapping("/api/v3/orders")
     public List<OrderDto> getOrdersV3() {
         return orderRepository.findAllByItem().stream()
+            .map(OrderDto::new)
+            .collect(Collectors.toList());
+    }
+
+    // response DTO object with fetch join ToOne relation entity to avoid lazy loading 
+    // and get collection with lazy loading (use hibernate.default_batch_fetch_size, @BatchSize)
+    // (recommend batch_size: 100 ~ 1000)
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> getOrdersV3_page(
+        @RequestParam(value = "offset", defaultValue = "0") int offset,
+        @RequestParam(value = "limit", defaultValue = "100") int limit
+    ) {
+        return orderRepository.findAllWithMemberDelivery(offset, limit).stream()
             .map(OrderDto::new)
             .collect(Collectors.toList());
     }

@@ -12,6 +12,7 @@ spring:
       hibernate:
         # show_sql: true # log 를 남기기 때문에 콘솔 출력 disable
         format_sql: true
+        default_batch_fetch_size: 100 # lazy loading fetch with IN QUERY
 
 logging:
   level:
