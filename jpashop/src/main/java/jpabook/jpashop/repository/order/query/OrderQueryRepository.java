@@ -2,7 +2,6 @@ package jpabook.jpashop.repository.order.query;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -38,6 +37,16 @@ public class OrderQueryRepository {
         return orders;
     }
 
+    public List<OrderQueryFlatDto> findAllByDto_flat() {
+        return em.createQuery(
+            "select new jpabook.jpashop.repository.order.query.OrderQueryFlatDto(o.id, m.name, o.orderDate, o.status, d.address, i.name, oi.orderPrice, oi.count)" +
+            " from Order o" +
+            " join o.member m" +
+            " join o.delivery d" +
+            " join o.orderItems oi" +
+            " join oi.item i", OrderQueryFlatDto.class).getResultList();
+    }
+
     private Map<Long, List<OrderItemQueryDto>> findOrderItemsMap(List<Long> orderIds) {
         List<OrderItemQueryDto> orderItems =  em.createQuery(
             "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name, oi.orderPrice, oi.count)" +
@@ -68,7 +77,7 @@ public class OrderQueryRepository {
             .getResultList();
     }
 
-    public List<OrderQueryDto> findOrders() {
+    private List<OrderQueryDto> findOrders() {
         return em.createQuery(
             "select new jpabook.jpashop.repository.order.query.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
             " from Order o" +
@@ -76,5 +85,4 @@ public class OrderQueryRepository {
             " join o.delivery d", OrderQueryDto.class)
             .getResultList();
     }
-
 }
