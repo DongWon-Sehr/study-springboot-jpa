@@ -74,9 +74,17 @@ public class OrderApiController {
 
     // response DTO object with fetch join that find DTO method
     // slightly better performance than v3 but less reusability
+    // query 1+N
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> getOrdersV4() {
         return orderQueryRepository.findOrderQueryDtos();
+    }
+
+    // qeury optimized version of V4
+    // query 1+1
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> getOrdersV5() {
+        return orderQueryRepository.findAllByDto_optimization();
     }
 
     @Getter
