@@ -18,6 +18,7 @@ import jpabook.jpashop.repository.order.query.OrderItemQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryFlatDto;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
+import jpabook.jpashop.service.query.OrderQueryService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ public class OrderApiController {
     
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
+    private final OrderQueryService orderQueryService;
 
     // response entity object and force lazy loading
     @GetMapping("/api/v1/orders")
@@ -55,10 +57,8 @@ public class OrderApiController {
 
     // response DTO object with fetch join to avoid lazy loading (can't support paging)
     @GetMapping("/api/v3/orders")
-    public List<OrderDto> getOrdersV3() {
-        return orderRepository.findAllByItem().stream()
-            .map(OrderDto::new)
-            .collect(Collectors.toList());
+    public List<jpabook.jpashop.service.query.OrderDto> getOrdersV3() {
+        return orderQueryService.getOrdersV3();
     }
 
     // response DTO object with fetch join ToOne relation entity to avoid lazy loading 
