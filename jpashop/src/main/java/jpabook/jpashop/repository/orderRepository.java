@@ -34,7 +34,7 @@ public class OrderRepository {
 
     public List<Order> findAllByCriteria(OrderSearch orderSearch) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Order.class);
+        CriteriaQuery<Order> cq = cb.createQuery(Order.class);
         Root<Order> o = cq.from(Order.class);
         Join<Object, Object> m = o.join("member", JoinType.INNER);
 
