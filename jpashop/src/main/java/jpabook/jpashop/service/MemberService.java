@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
-import jpabook.jpashop.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
 
 @Service
