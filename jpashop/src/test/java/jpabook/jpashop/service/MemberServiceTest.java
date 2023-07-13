@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.MemberRepositoryOld;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest // test will be failed to be autowired w/o this annotation
@@ -21,7 +21,7 @@ import jpabook.jpashop.repository.MemberRepository;
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired MemberRepositoryOld memberRepository;
     @Autowired EntityManager em;
 
     @Test

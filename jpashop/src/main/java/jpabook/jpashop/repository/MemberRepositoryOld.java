@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor // auto create constructor for only final variable
-public class MemberRepository {
+public class MemberRepositoryOld {
 
     private final EntityManager em;
 

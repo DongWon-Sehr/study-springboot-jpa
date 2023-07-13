@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor // auto create constructor for only final variable
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryOld memberRepository;
 
     // sign up
     @Transactional // default readOnly = false
