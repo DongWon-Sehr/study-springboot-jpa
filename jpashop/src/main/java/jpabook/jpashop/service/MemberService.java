@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.MemberRepositoryOld;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor // auto create constructor for only final variable
 public class MemberService {
 
-    private final MemberRepositoryOld memberRepository;
+    private final MemberRepository memberRepository;
 
     // sign up
     @Transactional // default readOnly = false
@@ -26,7 +27,7 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Long id, String name) {
-        Member findMember = memberRepository.findOne(id);
+        Member findMember = memberRepository.findById(id).get();
         findMember.setName(name);
     }
 
@@ -43,6 +44,6 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 }
