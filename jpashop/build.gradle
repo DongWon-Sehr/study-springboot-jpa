@@ -10,10 +10,11 @@ plugins {
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 // apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
+// apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group = 'jpabook'
 version = '0.0.1-SNAPSHOT'
@@ -48,8 +49,11 @@ dependencies {
 	implementation 'javax.validation:validation-api:2.0.1.Final' // validator package
 
 	implementation 'com.querydsl:querydsl-jpa' // querydsl package
-	implementation 'com.querydsl:querydsl-apt' // querydsl package
-	1
+	// implementation 'com.querydsl:querydsl-apt' // querydsl package
+	annotationProcessor 'com.querydsl:querydsl-apt'
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.0'
+
 	// implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final' // validator package
 	// implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8' // sql logging package
 }
@@ -61,24 +65,29 @@ tasks.named('test') {
 //querydsl 추가
 //def querydslDir = 'src/main/generated'
 def querydslDir = "$buildDir/generated/querydsl"
-	querydsl {
-	library = "com.querydsl:querydsl-apt"
+
+querydsl {
+	// library = "com.querydsl:querydsl-apt"
 	jpa = true
 	querydslSourcesDir = querydslDir
 }
 
-sourceSets {
-	main {
-		java {
-			srcDirs = ['src/main/java', querydslDir]
-		}
-	}
-}
+// sourceSets {
+// 	main {
+// 		java {
+// 			srcDirs = ['src/main/java']
+// 		}
+// 	}
+// }
 
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
+sourceSets {
+    main.java.srcDirs += [querydslDir, "src/main/java"]
 }
 
 configurations {
 	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
 }
